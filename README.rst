@@ -23,6 +23,7 @@ Installation
 ===============
 
 ::
+
     pip install biosniff
 
 Usage
