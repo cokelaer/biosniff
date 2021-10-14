@@ -37,6 +37,7 @@ jobs:
         pip install .
     - name: Test with pytest
       run: |
+        pip install -r requirements_dev.txt
         pytest --cov-report term --cov=biosniff
     - name: coveralls
       run: |
