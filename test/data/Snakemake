@@ -1,0 +1,24 @@
+
+
+
+rule all:
+    input: "measles.fa.fai"
+
+
+
+rule download_fasta:
+    input:
+    output: "measles.fa"
+    shell:
+        """
+        bioservices download-accession --accession K01711.1 --output {output}
+        """
+
+
+rule faidx:
+    input: "measles.fa"
+    output: "measles.fa.fai"
+    shell:
+        """
+        samtools faidx measles.fa
+        """
