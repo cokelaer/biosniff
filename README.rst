@@ -11,14 +11,34 @@ BioSniff
 .. image:: https://coveralls.io/repos/github/cokelaer/biosniff/badge.svg?branch=master
     :target: https://coveralls.io/github/biosniff/biosniff?branch=master
 
-.. image:: http://joss.theoj.org/papers/10.21105/joss.00352/status.svg
-   :target: http://joss.theoj.org/papers/10.21105/joss.00352
-   :alt: JOSS (journal of open source software) DOI
-
 
 :Python version: 3.7, 3.8, 3.9
 :Issues: `On github <https://github.com/cokelaer/biosniff/issues>`_
 
+
+This tools is a simple Sniffer for Biological formats (and some others)
+
+
+Installation
+===============
+
+::
+    pip install biosniff
+
+Usage
+======
+
+    biosniff file.fasta
+    biosniff example.vcf
+    ...
+
+There are about 50 formats supported for now including: 
+
+    abi, bam, bai, bcf, binary_bed, bed, bedgraph, bigwig, bigbed, bplink,
+    bz2, cram, clustal, dsrc, embl,ena, fasta, fastq, genbank, gfa, gff2,
+    gff3, gz, json, maf, newick, nexus, ods, paf, phylip, phyloxml, plink,
+    qual, sam, scf, stockholm, rar, tar, twobit, tsv, vcf, wiggle, wig, 
+    xls, xlsx, xmfa, yaml, zip, 7zip, xz
 
 
 Changelog
