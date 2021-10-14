@@ -28,6 +28,8 @@ Installation
 Usage
 ======
 
+::
+
     biosniff file.fasta
     biosniff example.vcf
     ...
