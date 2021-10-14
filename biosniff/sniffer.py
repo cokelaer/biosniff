@@ -475,7 +475,7 @@ class Sniffer(object):
 
     def is_paf(self, filename):
         try:
-            df = pd.read_csv(filename, sep="\s+", header=None)
+            df = pd.read_csv(filename, sep=r"\s+", header=None)
             if len(df.columns) >= 12:
                 if set(df.loc[:,4]) == set(['+', '-']):
                     return True
@@ -616,7 +616,7 @@ class Sniffer(object):
 
     def is_tsv(self, filename):
         try:
-            df = pd.read_csv(filename, sep="\s+")
+            df = pd.read_csv(filename, sep=r"\s+")
             if len(df.columns) > 1:
                 return True
         except:
