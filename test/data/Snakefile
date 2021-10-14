@@ -2,7 +2,9 @@
 
 
 rule all:
-    input: "measles.fa.fai"
+    input: 
+        "measles.fa.fai",
+        "measles.fa.gz"
 
 
 
@@ -21,4 +23,12 @@ rule faidx:
     shell:
         """
         samtools faidx measles.fa
+        """
+
+rule gzip:
+    input: "measles.fa"
+    output: "measles.fa.gz"
+    shell:
+        """
+        gzip -c {input} > {output}
         """

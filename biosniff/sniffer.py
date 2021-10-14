@@ -403,7 +403,6 @@ class Sniffer(object):
         except:
             return False
 
-
     def is_gz(self, filename):
         try:
             return self._is_magic(filename, [0x1f, 0x8b])
@@ -570,10 +569,6 @@ class Sniffer(object):
                 return True
         except:
             return False
-
-    def is_sra(self, filename):
-        # not need. This is not a format.
-        raise NotImplementedError
 
     def is_stockholm(self, filename):
         with open(filename, "r") as fin:

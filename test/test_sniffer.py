@@ -18,7 +18,12 @@ def test_sniffer():
 
 
 
-files = ['measles.fa', 'measles.fa.fai']
+files = [
+    'measles.fa', 
+    'measles.fa.fai',
+    'measles.fa.gz'
+
+]
 
 @pytest.mark.parametrize("filename", files)
 def test_sniffer_all(filename):
