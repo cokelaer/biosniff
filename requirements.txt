@@ -1,2 +1,4 @@
 pysam
 pandas
+ruamel.yaml>=0.16.0
+
