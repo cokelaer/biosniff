@@ -4,4 +4,4 @@ pytest-xdist
 pytest-mock
 pytest-timeout
 pytest-runner
-coveralls
+coveralls<6
