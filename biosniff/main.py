@@ -12,7 +12,6 @@ import colorlog
 logger = colorlog.getLogger(__name__)
 
 
-
 from biosniff import version
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
@@ -30,8 +29,8 @@ def sniffer(**kwargs):
 
     """
     from biosniff import Sniffer, logger
+
     logger.setLevel("ERROR")
     s = Sniffer()
-    ret = s.sniff(kwargs['input'])
+    ret = s.sniff(kwargs["input"])
     print(ret)
-

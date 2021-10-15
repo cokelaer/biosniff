@@ -1,4 +1,5 @@
 import pkg_resources
+
 version = pkg_resources.require("biosniff")[0].version
 
 
@@ -16,19 +17,17 @@ colors = {
 
 
 formatter = colorlog.ColoredFormatter(
-     "%(log_color)s%(levelname)-8s[%(name)s:%(lineno)d]: %(reset)s %({})s%(message)s".format(
-            "green"
-        ),
-            datefmt=None,
-            reset=True,
-            log_colors=colors,
-            secondary_log_colors={},
-            style="%",
-        )
+    "%(log_color)s%(levelname)-8s[%(name)s:%(lineno)d]: %(reset)s %({})s%(message)s".format(
+        "green"
+    ),
+    datefmt=None,
+    reset=True,
+    log_colors=colors,
+    secondary_log_colors={},
+    style="%",
+)
 
 logger = colorlog.getLogger("biosniff")
 handler = colorlog.StreamHandler()
 handler.setFormatter(formatter)
 logger.addHandler(handler)
-
-

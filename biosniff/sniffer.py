@@ -1,4 +1,3 @@
-
 import yaml
 import xml.etree.ElementTree as ET
 import json
@@ -6,8 +5,8 @@ import pandas as pd
 import pysam
 
 
-
 import colorlog
+
 _log = colorlog.getLogger(__name__)
 
 
@@ -39,7 +38,7 @@ class Sniffer(object):
 
         # let us just check whether a format is missing
         self.formats = [x.replace("is_", "") for x in self.methods]
-        #for frmt in extensions.keys():
+        # for frmt in extensions.keys():
         #    if frmt not in self.formats:
         #        _log.warning('warning please add the is_{} method in the sniffer'.format(frmt))
 
@@ -58,14 +57,17 @@ class Sniffer(object):
             func = getattr(self, "is_{}".format(extension))
             ret = func(filename)
             if ret is True:
-                _log.debug("Confirm the format based on extension and is_{} function".format(
-                    extension))
+                _log.debug(
+                    "Confirm the format based on extension and is_{} function".format(
+                        extension
+                    )
+                )
                 candidates.append(extension)
             else:
                 raise Error
         except:
             # otherwise, we should try all formats and methods available
-            # 
+            #
             for frmt in self.formats:
                 _log.debug("Trying {}".format(frmt))
                 func = getattr(self, "is_{}".format(frmt))
@@ -81,7 +83,7 @@ class Sniffer(object):
             candidates = [x for x in candidates if x not in ["tsv", "csv"]]
 
         # bcf is known to also be gz
-        for frmt in ['bam', 'bcf']:
+        for frmt in ["bam", "bcf"]:
             if frmt in candidates and "gz" in candidates:
                 candidates = [x for x in candidates if x not in ["gz"]]
 
@@ -109,13 +111,13 @@ class Sniffer(object):
         L = len(magic)
 
         # we need at least L + 1 values
-        if len(buff)<=L:
+        if len(buff) <= L:
             return False
 
         # then, each magic number should fit the first bytes
         ret = [buff[i] == magic[i] for i in range(0, L)]
-        #_log.debug("magic number: {}".format([hex(buff[i]) for i in range(0, L)]))
-        #_log.debug("expected number: {}".format(magic))
+        # _log.debug("magic number: {}".format([hex(buff[i]) for i in range(0, L)]))
+        # _log.debug("expected number: {}".format(magic))
 
         if False in ret:
             return False
@@ -148,7 +150,6 @@ class Sniffer(object):
         except:
             return False
 
-
     def is_bcf(self, filename):
         try:
             d = pysam.VariantFile(filename)
@@ -157,10 +158,10 @@ class Sniffer(object):
             return False
 
     def is_binary_bed(self, filename):
-        # This could be a BED binary file from plink 
+        # This could be a BED binary file from plink
         # https://www.cog-genomics.org/plink2/formats#bed
         try:
-            return self._is_magic(filename, [0x6c, 0x1b, 0x1])
+            return self._is_magic(filename, [0x6C, 0x1B, 0x1])
         except:
             return False
 
@@ -168,7 +169,7 @@ class Sniffer(object):
         try:
             data = open(filename, "r")
             line = data.readline()
-            if len(line.split())<4:
+            if len(line.split()) < 4:
                 return False
             else:
                 # reads 10 lines if possible. They should all be tab delimited
@@ -176,7 +177,7 @@ class Sniffer(object):
                 L = len(line)
                 for i in range(10):
                     line = data.readline().strip()
-                    if len(line)!=4:
+                    if len(line) != 4:
                         return False
                 # let us assume it is a TSV-like file
                 return True
@@ -188,13 +189,13 @@ class Sniffer(object):
 
     def is_bigwig(self, filename):
         try:
-            return self._is_magic(filename, [0x26, 0xfc, 0x8f])
+            return self._is_magic(filename, [0x26, 0xFC, 0x8F])
         except:
             return False
 
     def is_bigbed(self, filename):
         try:
-            return self._is_magic(filename, [0xeb, 0xf2, 0x89])
+            return self._is_magic(filename, [0xEB, 0xF2, 0x89])
         except:
             return False
 
@@ -206,9 +207,6 @@ class Sniffer(object):
             return self._is_magic(filename, [0x42, 0x5A, 0x68])
         except:
             return False
-
-    def is_cdao(self, filename):
-        raise NotImplementedError
 
     def is_csv(self, filename):
 
@@ -232,15 +230,13 @@ class Sniffer(object):
                 line = fin.readline().strip()
                 if self._is_blank_line(line):
                     pass
-                elif line.startswith("CLUSTAL"):
-                    return True
             except:
                 return False
 
     def is_dsrc(self, filename):
         try:
             # FIXME not sure whether we need more characters ?
-            return self._is_magic(filename, [0xaa, 0x2])
+            return self._is_magic(filename, [0xAA, 0x2])
         except:
             return False
 
@@ -249,15 +245,27 @@ class Sniffer(object):
         # here we naively read 20 lines and extract the first 2 letters checking
         # whether there are within the list of authorised values
         # non exhaustive list
-        valid_ids = ['ID', 'XX', 'AC', 'DE', 'KW', 'OS', 'OC', 'RN', 'RA', 'RT',
-            'FT', 'FH']
+        valid_ids = [
+            "ID",
+            "XX",
+            "AC",
+            "DE",
+            "KW",
+            "OS",
+            "OC",
+            "RN",
+            "RA",
+            "RT",
+            "FT",
+            "FH",
+        ]
         try:
             with open(filename, "r") as fin:
-                data = fin.readlines(200000) # 200000 characters should be enough
+                data = fin.readlines(200000)  # 200000 characters should be enough
             ids = [x.split()[0] for x in data if x[0:2] in valid_ids]
             # can be only of length 2
             ids = [x for x in ids if len(x) == 2]
-            if len(ids)>0:
+            if len(ids) > 0:
                 return True
             else:
                 return False
@@ -268,7 +276,7 @@ class Sniffer(object):
         try:
 
             data = open(filename, "r")
-            L1 = data.readline()     
+            L1 = data.readline()
             if L1.startswith("ID"):
                 return True
             else:
@@ -276,9 +284,8 @@ class Sniffer(object):
         except:
             return False
 
-
     def is_fasta(self, filename):
-        # FIXME this is valid for FASTA 
+        # FIXME this is valid for FASTA
         try:
             data = open(filename, "r")
             line1 = data.readline()
@@ -310,7 +317,7 @@ class Sniffer(object):
             try:
                 line = fin.readline().strip()
                 data = line.split()
-                if data[0] == 'LOCUS':
+                if data[0] == "LOCUS":
                     return True
                 else:
                     return False
@@ -361,7 +368,7 @@ class Sniffer(object):
 
     def _is_gfa1(self, filename):
         with open(filename, "r") as fin:
-            data = fin.readlines(200000) # 200000 characters should be enough
+            data = fin.readlines(200000)  # 200000 characters should be enough
         ids = [x.split()[0] for x in data]
         if "H" in ids and "S" in ids and "L" in ids:
             return True
@@ -369,17 +376,16 @@ class Sniffer(object):
             return False
 
     def _is_gfaXX(self, filename):
-        # FIXME: need to be sure the test files are correct. 
+        # FIXME: need to be sure the test files are correct.
         # there are two right now one GFA1 the other is unclear since starting
         # values can be S but also a
         with open(filename, "r") as fin:
-            data = fin.readlines(200000) # 200000 characters should be enough
+            data = fin.readlines(200000)  # 200000 characters should be enough
         ids = [x.split()[0] for x in data]
         if "a" in ids and "S":
             return True
         else:
             return False
-
 
     def is_gff2(self, filename):
         try:
@@ -405,7 +411,7 @@ class Sniffer(object):
 
     def is_gz(self, filename):
         try:
-            return self._is_magic(filename, [0x1f, 0x8b])
+            return self._is_magic(filename, [0x1F, 0x8B])
         except:
             return False
 
@@ -426,19 +432,19 @@ class Sniffer(object):
                 # we get rid of the comments.
                 # Read 5000 characters at most.
                 data = fin.readlines(5000)
-                comments = [line for line in data if line.startswith('#')]
-                data = [line.strip() for line in data if line.startswith('#') is False]
+                comments = [line for line in data if line.startswith("#")]
+                data = [line.strip() for line in data if line.startswith("#") is False]
 
                 # get rid of blank lines
-                data = [line for line in data if len(line.strip())!=0]
+                data = [line for line in data if len(line.strip()) != 0]
                 starts = [line[0:2] for line in data]
 
-                if len(starts) == 0: 
+                if len(starts) == 0:
                     return False
 
                 # line must start with one of i, e, q, a, s letter
                 for x in starts:
-                    assert x in ['a ', 's ', 'e ', 'q ', 'i ']
+                    assert x in ["a ", "s ", "e ", "q ", "i "]
                 return True
             except Exception as err:
                 _log.debug(err)
@@ -448,7 +454,7 @@ class Sniffer(object):
         try:
             with open(filename, "r") as fin:
                 data = fin.readlines()
-                if data[0].strip()[0] == "(" and data[-1].strip()[-1] == ';':
+                if data[0].strip()[0] == "(" and data[-1].strip()[-1] == ";":
                     return True
                 else:
                     return False
@@ -468,7 +474,7 @@ class Sniffer(object):
 
     def is_ods(self, filename):
         try:
-            return self._is_magic(filename, [0x50, 0x4b, 0x03, 0x04])
+            return self._is_magic(filename, [0x50, 0x4B, 0x03, 0x04])
         except:
             return False
 
@@ -476,7 +482,7 @@ class Sniffer(object):
         try:
             df = pd.read_csv(filename, sep=r"\s+", header=None)
             if len(df.columns) >= 12:
-                if set(df.loc[:,4]) == set(['+', '-']):
+                if set(df.loc[:, 4]) == set(["+", "-"]):
                     return True
             return False
         except Exception as err:
@@ -499,14 +505,14 @@ class Sniffer(object):
                 seq = seq.replace(" ", "")
                 # we identify each alignement and check that the length are
                 # identical and equal to n
-                for this in range(1, m-1): # -1 since we already read 1 line
+                for this in range(1, m - 1):  # -1 since we already read 1 line
                     nextline = fin.readline().strip()
                     name, seq2 = nextline.split(" ", 1)
-                    seq2= seq2.replace(" ","")
+                    seq2 = seq2.replace(" ", "")
                     assert len(seq) == len(seq2), "not same length"
                 return True
             except Exception as err:
-                #print(err)
+                # print(err)
                 return False
 
     def is_phyloxml(self, filename):
@@ -531,11 +537,11 @@ class Sniffer(object):
             line1 = data.readline()
             line2 = data.readline()
 
-            # we check the first line identifier. 
+            # we check the first line identifier.
             # then, we scan the entire line searching of encoding qualities
             # hoping that values between 33 and 126 will be enough to
             # differentiate them from the standard nucleotides and protein
-            # characters. 
+            # characters.
             scores = [x for x in line2 if x not in "ABCDEFGHIKLMNPQRSTUVWYZX*-"]
             # if we find a character (e.g !, #ietc) it means is a quality file
             # however, if we do not find such a value, it does not mean it is
@@ -546,8 +552,7 @@ class Sniffer(object):
             #    AACCTTGG
             # is a qual or fasta file
 
-
-            if line1.startswith(">") and len(scores)>1:
+            if line1.startswith(">") and len(scores) > 1:
                 return True
             else:
                 return False
@@ -582,19 +587,12 @@ class Sniffer(object):
 
     def is_rar(self, filename):
         try:
-            c1 = self._is_magic(filename, [0x52, 0x61, 0x72, 0x21, 0x1A , 0x7, 0x0])
-            c2 = self._is_magic(filename, [0x52, 0x61, 0x72, 0x21, 0x1A , 0x7, 0x0])
+            c1 = self._is_magic(filename, [0x52, 0x61, 0x72, 0x21, 0x1A, 0x7, 0x0])
+            c2 = self._is_magic(filename, [0x52, 0x61, 0x72, 0x21, 0x1A, 0x7, 0x0])
             if c1 or c2:
                 return True
             else:
                 return False
-        except:
-            return False
-
-    def is_tar(self, filename):
-        try:
-            # length must be > 260
-            return self._is_magic(filename, [0x75, 0x73, 0x74, 0x61, 0x72])
         except:
             return False
 
@@ -603,7 +601,7 @@ class Sniffer(object):
             data = open(filename, "rb")
             buff = data.read(16)
             if 0x43 in buff and 0x27 in buff:
-               return True
+                return True
             else:
                 return False
         except:
@@ -640,15 +638,15 @@ class Sniffer(object):
 
     def is_xls(self, filename):
         try:
-            return self._is_magic(filename, [0xd0, 0xcf, 0x11])
+            return self._is_magic(filename, [0xD0, 0xCF, 0x11])
         except:
             return False
 
     def is_xlsx(self, filename):
         try:
             # FIXME only second case should be used most probably
-            case1 = self._is_magic(filename, [0xd0, 0xcf, 0x11])
-            case2 = self._is_magic(filename, [0x50, 0x4b, 0x3,  0x4])
+            case1 = self._is_magic(filename, [0xD0, 0xCF, 0x11])
+            case2 = self._is_magic(filename, [0x50, 0x4B, 0x3, 0x4])
             if case1 or case2:
                 return True
             else:
@@ -677,9 +675,9 @@ class Sniffer(object):
 
     def is_zip(self, filename):
         try:
-            c1 = self._is_magic(filename, [0x50,  0x4B, 0x3, 0x4])
-            c2 = self._is_magic(filename, [0x50,  0x4B, 0x3, 0x4])
-            c3 = self._is_magic(filename, [0x50,  0x4B, 0x3, 0x4])
+            c1 = self._is_magic(filename, [0x50, 0x4B, 0x3, 0x4])
+            c2 = self._is_magic(filename, [0x50, 0x4B, 0x3, 0x4])
+            c3 = self._is_magic(filename, [0x50, 0x4B, 0x3, 0x4])
             if c1 or c2 or c3:
                 return True
             else:
@@ -687,10 +685,9 @@ class Sniffer(object):
         except:
             return False
 
-
     def is_7zip(self, filename):
         try:
-            return self._is_magic(filename, [0x37, 0x7A, 0xbc, 0xaf,0x27, 0x1C])
+            return self._is_magic(filename, [0x37, 0x7A, 0xBC, 0xAF, 0x27, 0x1C])
         except:
             return False
 
@@ -699,4 +696,3 @@ class Sniffer(object):
             return self._is_magic(filename, [0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00])
         except:
             return False
-
