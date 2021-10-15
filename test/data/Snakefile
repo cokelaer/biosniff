@@ -4,8 +4,7 @@
 rule all:
     input: 
         "measles.fa.fai",
-        "measles.fa.gz"
-
+        "measles.bam",
 
 
 rule download_fasta:
@@ -16,6 +15,16 @@ rule download_fasta:
         bioservices download-accession --accession K01711.1 --output {output}
         """
 
+rule download_fastq:
+    input:
+    output:
+        "measles_R1_.fastq.gz",
+        "measles_R2_.fastq.gz"
+    shell:
+        """
+        wget https://github.com/sequana/data/raw/master/measles/measles_R1_.fastq.gz
+        wget https://github.com/sequana/data/raw/master/measles/measles_R2_.fastq.gz
+        """
 
 rule faidx:
     input: "measles.fa"
@@ -25,10 +34,53 @@ rule faidx:
         samtools faidx measles.fa
         """
 
-rule gzip:
-    input: "measles.fa"
-    output: "measles.fa.gz"
+rule build_bwt:
+    input:
+        "measles.fa"
+    output:
+        "measles.fa.bwt"
     shell:
         """
-        gzip -c {input} > {output}
+        bwa index {input}
         """
+
+
+rule build_sam:
+    input:
+        fa="measles.fa",
+        bwt="measles.fa.bwt",
+        R1="measles_R1_.fastq.gz",
+        R2="measles_R2_.fastq.gz"
+    output:
+        "measles.sam"
+    shell:
+        """
+        bwa mem {input.fa} {input.R1} {input.R2} > {output}
+        """
+
+
+rule build_bam:
+    input:
+        fa="measles.sam",
+    output:
+        "measles.bam"
+    shell:
+        """
+        samtools view -bh {input} {output}
+        """
+
+
+
+rule build_bam_bai:
+    input:
+        "measles.bam"
+    output:
+        "measles.bam.bai"
+    shell:
+        """
+        bamtools index -in {input}
+        """
+
+
+
+

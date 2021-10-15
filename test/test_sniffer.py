@@ -21,8 +21,14 @@ def test_sniffer():
 files = [
     'measles.fa', 
     'measles.fa.fai',
-    'measles.fa.gz'
-
+    'measles_R1_.fastq.gz',
+    "measles.sam",
+    "measles.bam",
+    "ABI/310.ab1",
+    "measles.gbk",
+    "test_tabulated.xls",
+    "test_tabulated.xlsx",
+    "test_tabulated.ods"
 ]
 
 @pytest.mark.parametrize("filename", files)

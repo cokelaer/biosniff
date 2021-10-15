@@ -1,2 +1,2 @@
 all:
-	snakemake -j 2
+	snakemake -j 2 -p
