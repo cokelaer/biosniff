@@ -43,7 +43,7 @@ There are about 50 formats supported for now including:
     abi, bam, bai, bcf, binary_bed, bed, bedgraph, bigwig, bigbed, bplink,
     bz2, cram, clustal, dsrc, embl,ena, fasta, fastq, genbank, gfa, gff2,
     gff3, gz, json, maf, newick, nexus, ods, paf, phylip, phyloxml, plink,
-    qual, sam, scf, stockholm, rar, tar, twobit, tsv, vcf, wiggle, wig, 
+    qual, sam, scf, stockholm, rar, twobit, tsv, vcf, wiggle, wig, 
     xls, xlsx, xmfa, yaml, zip, 7zip, xz
 
 
