@@ -3,7 +3,7 @@ import os
 from setuptools import setup, find_packages
 
 _MAJOR = 0
-_MINOR = 2
+_MINOR = 3
 _MICRO = 0
 version = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
 release = '%d.%d' % (_MAJOR, _MINOR)
@@ -20,7 +20,7 @@ metainfo = {
     'platforms': ['Linux', 'Unix', 'MacOsX', 'Windows'],
     "keywords": ["NGS"],
     'classifiers': [
-          'Development Status :: 4 - Beta',
+          'Development Status :: 5 - Production/Stable',
           'Intended Audience :: Developers',
           'Intended Audience :: Science/Research',
           'License :: OSI Approved :: BSD License',

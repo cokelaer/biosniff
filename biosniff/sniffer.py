@@ -1,3 +1,14 @@
+#
+#  This file is part of Biosniff software
+#
+#  Copyright (c) 2021-2022 - Biosniff Team
+#
+#  Distributed under the terms of the 3-clause BSD license.
+#  The full license is in the LICENSE file, distributed with this software.
+#
+#  Website:       https://github.com/cokelaer/biosniff
+##############################################################################
+
 import yaml
 import xml.etree.ElementTree as ET
 import json
@@ -57,11 +68,7 @@ class Sniffer(object):
             func = getattr(self, "is_{}".format(extension))
             ret = func(filename)
             if ret is True:
-                _log.debug(
-                    "Confirm the format based on extension and is_{} function".format(
-                        extension
-                    )
-                )
+                _log.debug("Confirm the format based on extension and is_{} function".format(extension))
                 candidates.append(extension)
             else:
                 raise Error
