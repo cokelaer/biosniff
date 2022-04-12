@@ -8,8 +8,6 @@ BioSniff
 .. image:: https://github.com/cokelaer/biosniff/actions/workflows/main.yml/badge.svg?branch=main
     :target: https://github.com/cokelaer/biosniff/actions/workflows/main.yml
 
-
-    
 .. image:: https://coveralls.io/repos/github/cokelaer/biosniff/badge.svg?branch=main
     :target: https://coveralls.io/github/cokelaer/biosniff?branch=main
 
@@ -53,6 +51,7 @@ Changelog
 ========= ====================================================================
 Version   Description
 ========= ====================================================================
+0.4.0     * additional test and fix missing click requirements
 0.3.0     * add missing MANIFEST and applied black
 0.2.0     * more tests (80% coverage) and some simplifications
 0.1.0     * first commit

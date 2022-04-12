@@ -98,7 +98,7 @@ class Sniffer(object):
             return None
         elif len(candidates) == 1:
             return candidates[0]
-        else:
+        else: #pragma: no cover
             _log.warning("Sniffer found several candidates: {}".format(candidates))
 
             return candidates
@@ -137,7 +137,7 @@ class Sniffer(object):
             buff = data.read(4)
             if buff[0:4].decode() == "ABIF":
                 return True
-        except:
+        except: #pragma: no cover
             return False
 
     def is_bam(self, filename):
@@ -154,14 +154,14 @@ class Sniffer(object):
                 return True
             else:
                 return False
-        except:
+        except: #pragma: no cover
             return False
 
     def is_bcf(self, filename):
         try:
             d = pysam.VariantFile(filename)
             return d.is_bcf
-        except:
+        except: #pragma: no cover
             return False
 
     def is_binary_bed(self, filename):
