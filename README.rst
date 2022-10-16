@@ -2,6 +2,13 @@ BioSniff
 ############
 
 
+
+.. figure:: https://raw.githubusercontent.com/cokelaer/biosniff/main/doc/biosniff_logo_256.png
+    :alt: logo
+    :align: center
+    :target: https://raw.githubusercontent.com/cokelaer/biosniff/main/doc/biosniff_logo_256.png
+    :width: 10%
+
 .. image:: https://badge.fury.io/py/biosniff.svg
     :target: https://pypi.python.org/pypi/biosniff
 
@@ -10,9 +17,6 @@ BioSniff
 
 .. image:: https://coveralls.io/repos/github/cokelaer/biosniff/badge.svg?branch=main
     :target: https://coveralls.io/github/cokelaer/biosniff?branch=main
-
-.. images:: https://raw.githubusercontent.com/cokelaer/biosniff/main/doc/biosniff_logo_256.png
-    :target: https://raw.githubusercontent.com/cokelaer/biosniff/main/doc/biosniff_logo_256.png
 
 :Python version: 3.7, 3.8, 3.9, 3.10
 :Issues: `On github <https://github.com/cokelaer/biosniff/issues>`_
